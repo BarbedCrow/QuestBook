@@ -14,8 +14,8 @@ class App extends React.Component{
 
 	getStyle(){
 		return {
-			backgroundColor: "#AC9357",
-			height:"auto"
+			// backgroundColor: "#AC9357",
+			// height:"auto"
 		};
 	}
 

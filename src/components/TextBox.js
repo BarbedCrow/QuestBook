@@ -10,11 +10,7 @@ class TextBox extends React.Component{
                 </div>
             )
         }else{
-            return(
-                <div style={this.getStyle()}>
-                    <img src ={this.props.image}/>
-                </div>
-            )
+
         }
     }
 

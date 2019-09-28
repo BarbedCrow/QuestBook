@@ -19,6 +19,7 @@ class ButtonsList extends React.Component{
             marginLeft: "1%",
             marginRight: "1%",
             marginTop: "1%",
+            marginBottom: "1%",
             border:"1px solid black",
             boxShadow: "inset 3px 3px 10px #ccc",
             backgroundColor:"#EFE9DB",
