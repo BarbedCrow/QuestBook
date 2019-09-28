@@ -3,7 +3,7 @@ import React from "react"
 class TextBox extends React.Component{
 
     render(){
-        if(this.props.text != "") {
+        if(this.props.text !== "") {
             return(
                 <div style={this.getStyle()}>
                     <p>{this.props.text}</p>

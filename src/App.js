@@ -31,7 +31,7 @@ class App extends React.Component{
 	getStyle(){
 		return {
 			background: 'radial-gradient(#D6C594, #938B6A)',
-			height:"auto"
+			height:"100vh"
 		};
 	}
 

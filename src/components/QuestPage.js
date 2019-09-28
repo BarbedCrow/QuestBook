@@ -8,11 +8,11 @@ import Inventory from "./Inventory";
 class QuestPage extends React.Component{
 
     constructor(){
-        super()
+        super();
 
         this.state={
             inInventory:false
-        }
+        };
 
         this.onSwipeMove = this.onSwipeMove.bind(this)
     }
@@ -21,14 +21,14 @@ class QuestPage extends React.Component{
         const content = (this.state.inInventory)?
             <div style={this.getStyle()}>
                 {(this.props.node.image != null) ? <ImageContainer image={this.props.node.image}/> : null}
-                <Inventory/>
+                <Inventory globals={this.props.node.globals}/>
             </div>
             :
             <div style={this.getStyle()}>
                 {(this.props.node.image != null) ? <ImageContainer image={this.props.node.image}/> : null}
                 <TextBox text={this.props.node.text}/>
                 <ButtonsList actions={this.props.node.actions}/>
-            </div>
+            </div>;
         return(
             <Swipe
                 onSwipeStart={this.onSwipeStart}
@@ -60,7 +60,7 @@ class QuestPage extends React.Component{
     }
 
     onSwipeMove(position, event) {
-        var minWidth = window.innerWidth / 4
+        const minWidth = window.innerWidth / 8
         if (position.x < -minWidth && !this.state.inInventory){
             this.setState({inInventory:true})
         }else if(position.x > minWidth && this.state.inInventory){
