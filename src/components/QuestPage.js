@@ -4,6 +4,7 @@ import ButtonsList from "./ButtonsList";
 import ImageContainer from "./ImageContainer";
 import Swipe from "react-easy-swipe"
 import Inventory from "./Inventory";
+import InputText from "./InputText";
 
 class QuestPage extends React.Component{
 
@@ -15,6 +16,11 @@ class QuestPage extends React.Component{
         };
 
         this.onSwipeMove = this.onSwipeMove.bind(this)
+        this.onCheckInputSuccess = this.onCheckInputSuccess.bind(this)
+    }
+
+    componentDidMount() {
+        this.setState({actions:this.props.node.actions})
     }
 
     render() {
@@ -27,7 +33,12 @@ class QuestPage extends React.Component{
             <div style={this.getStyle()}>
                 {(this.props.node.image != null) ? <ImageContainer image={this.props.node.image}/> : null}
                 <TextBox text={this.props.node.text}/>
-                <ButtonsList actions={this.props.node.actions}/>
+                {
+                    (this.props.node.input != null)?
+                        <InputText onCheckSuccess={this.onCheckInputSuccess} answer={this.props.node.input}/>
+                        :
+                        <ButtonsList actions={this.props.node.actions}/>
+                }
             </div>;
         return(
             <Swipe
@@ -50,6 +61,14 @@ class QuestPage extends React.Component{
             alignItems:"space-around",
             alignContent:"space-around",
         };
+    }
+
+    onCheckInputSuccess(){
+        if(this.state.actions.length === 0){
+            return
+        }
+
+        this.state.actions[0].action()
     }
 
     onSwipeStart(event) {
