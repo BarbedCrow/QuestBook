@@ -7,7 +7,7 @@ class ActionButton extends React.Component{
 
     render() {
         return(
-            <CellButton style={this.getStyle()} before={<Icon24Send style={{color:"#4D708B"}}/>} >{this.props.text}</CellButton>
+            <CellButton onClick={this.props.action} style={this.getStyle()} before={<Icon24Send style={{color:"#4D708B"}}/>} >{this.props.text}</CellButton>
         )
     }
 

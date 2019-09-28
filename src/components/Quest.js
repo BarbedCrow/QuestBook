@@ -1,27 +1,77 @@
 import React from "react"
 import QuestPage from "./QuestPage"
 
-class Quest extends React.Component{
+class Quest extends React.Component {
 
-    Quest(){
+    constructor(props) {
+        super(props);
+        let model = this.download();
+        this.state = {
+            model: model,
+            index: model.startNode
+        };
+    }
 
+    download() {
+        return JSON.parse("{\"globals\":[{\"type\":0,\"varName\":\"i\",\"justifyName\":\"Количество\"}],\"startNode\":0,\"finishNodes\":[5,6],\"nodes\":[{\"id\":0,\"text\":\"hello\",\"pic\":null,\"links\":[{\"transition\":\"i want 1\",\"to\":1},{\"transition\":\"i want 2\",\"to\":2}]},{\"id\":1,\"text\":\"1\",\"pic\":null,\"links\":[{\"transition\":\"i want to end\",\"to\":6}]},{\"id\":2,\"text\":\"2\",\"pic\":null,\"links\":[{\"transition\":\"i want inc\",\"to\":3}]},{\"id\":3,\"links\":[{\"transition\":null,\"to\":4}],\"code\":\"i++\",\"isBranching\":false},{\"id\":4,\"links\":[{\"transition\":\"i want 4 where end\",\"to\":5}],\"code\":\"i++\",\"isBranching\":false},{\"id\":5,\"text\":\"4\",\"pic\":null,\"links\":[]},{\"id\":6,\"text\":\"end\",\"pic\":null,\"links\":[]}]}") }
+
+    execUntilBaseNode(index) {
+        const node = this.getNode(index);
+        if (!this.isBaseNode(node)) {
+            if (node.links.length === 1) {
+                return this.execUntilBaseNode(node.links[0].to)
+            }
+            const evalAns = eval(node.code);
+            if (node.isBranching) {
+                const newNodeIndex = node.links.filter(edge => edge.transition === evalAns)[0].to;
+                console.log("new node index is " + newNodeIndex);
+                // todo check newNodeIndex is int
+                return this.execUntilBaseNode(newNodeIndex)
+            } else {
+                console.log("it is just hernya");
+                // todo check evalAns is int
+                return this.execUntilBaseNode(evalAns)
+            }
+        } else {
+            return node
+        }
+    }
+
+    isBaseNode(node) {
+        return (node.text != null && node.links != null)
+    }
+
+    getNode(index) {
+        return this.state.model.nodes[index]
     }
 
     render() {
-        const actions =[
-            "some text",
-            "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
-            "some more text without any purpose",
-            "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English."
-        ];
+        let curNode = this.getNode(this.state.index);
+        console.log(this.state);
+        const actions = curNode.links.map(edge => {
+                let text = edge.transition;
+                let to = edge.to;
+                let action = () => {
+                    let nextBaseNode = this.execUntilBaseNode(to);
+                    this.setState({
+                        index: nextBaseNode.id
+                    })
+                };
 
-        const questNode={
-            text:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-            image:"https://images.pexels.com/photos/20787/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=350",
-            actions:actions
+                return {
+                    text: text,
+                    action: action
+                }
+            }
+        );
+
+        const questNode = {
+            text: curNode.text,
+            image: curNode.pic,
+            actions: actions
         };
 
-        return(
+        return (
             <div>
                 <QuestPage
                     node={questNode}

@@ -4,7 +4,7 @@ import ActionButton from "./ActionButton";
 class ButtonsList extends React.Component{
 
     render() {
-        const btns = this.props.actions.map((action) => <ActionButton text = {action}/>);
+        const btns = this.props.actions.map((button) => <ActionButton text = {button.text} action = {button.action} />);
         return(
             <div style={this.getStyle()}>
                 {btns}
