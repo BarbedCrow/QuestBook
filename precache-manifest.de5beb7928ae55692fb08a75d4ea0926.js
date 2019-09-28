@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "275092c302c1877c17ae5d222199b8f9",
+    "revision": "7241fc8b745ae1d8bc75259817970c42",
     "url": "/QuestBook/index.html"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/QuestBook/static/js/2.4cab9547.chunk.js"
   },
   {
-    "revision": "81d6c202c293108d4a39",
-    "url": "/QuestBook/static/js/main.1842bb79.chunk.js"
+    "revision": "73088584f02166100604",
+    "url": "/QuestBook/static/js/main.c9b79d64.chunk.js"
   },
   {
     "revision": "fbba8e82028f85d4da76",
