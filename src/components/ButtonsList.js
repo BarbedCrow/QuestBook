@@ -1,10 +1,18 @@
 import React from "react"
 import ActionButton from "./ActionButton";
+import Divider from "@material-ui/core/Divider";
 
 class ButtonsList extends React.Component{
 
     render() {
-        const btns = this.props.actions.map((button) => <ActionButton text = {button.text} action = {button.action} />);
+        const btns = this.props.actions.map((button) => {
+            return(
+                <div>
+                    <ActionButton text = {button.text} action = {button.action} />
+                    <Divider variant="inset"  />
+                </div>
+            )
+        });
         return(
             <div style={this.getStyle()}>
                 {btns}

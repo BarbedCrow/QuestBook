@@ -1,9 +1,9 @@
 import React from "react"
-import {Progress} from "@vkontakte/vkui";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import {withStyles} from "@material-ui/core";
 import {lighten} from "@material-ui/core/styles";
-import Icon16Chevron from '@vkontakte/icons/dist/16/chevron';
+import {ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
+import FiberManualRecordOutlinedIcon from '@material-ui/icons/FiberManualRecordOutlined';
 
 const BorderLinearProgress = withStyles({
     root: {
@@ -22,7 +22,7 @@ class Inventory extends React.Component{
     render(){
         return(
             <div>
-                <h1 style={this.mainHeaderStyle()}>Состояние</h1>
+                <h1 style={this.mainHeaderStyle()}>Инфо</h1>
                 <div style={this.getStyle()}>
                     {this.parseGlobals(this.props.globals)}
                 </div>
@@ -36,11 +36,11 @@ class Inventory extends React.Component{
 
     parseGlobal(global){
         if(global.type === 0 || global.type === 2){
-            return <h3>{global.justifyName}:{global.value}</h3>
+            return <h3>{global.justifyName}: {global.value}</h3>
         }else if(global.type === 1){
             return(
                 <div>
-                    <h3>{global.justifyName}</h3>
+                    <h3>{global.justifyName}:</h3>
                     <BorderLinearProgress
                         variant="determinate"
                         color="secondary"
@@ -51,18 +51,38 @@ class Inventory extends React.Component{
         }else if(global.type === 3){
             const items = global.value.map((item) => {
                 return(
-                    <div>
-                        <Icon16Chevron />
-                        <h4>{item}</h4>
+                    <div style={this.itemStyle()}>
+                        <ListItem button>
+                            <ListItemIcon>
+                                <FiberManualRecordOutlinedIcon />
+                            </ListItemIcon>
+                            <ListItemText primary={item} />
+                        </ListItem>
                     </div>
                 )
             });
             return(
-                <div>
-                    <h3>{global.justifyName}</h3>
+                <div style={this.itemsListStyle()}>
+                    <h3>{global.justifyName}:</h3>
                     {items}
                 </div>
             )
+        }
+    }
+
+    itemStyle(){
+        return{
+            display:"flex",
+            flexDirection:"row",
+            flex:1,
+            flexWrap:"nowrap"
+        }
+    }
+
+    itemsListStyle(){
+        return{
+            display:"flex",
+            flexDirection:"column"
         }
     }
 
