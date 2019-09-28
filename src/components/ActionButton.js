@@ -1,11 +1,13 @@
 import React from "react"
-import {Button} from "@vkontakte/vkui";
+import {Button, CellButton} from "@vkontakte/vkui";
+import Icon24Send from '@vkontakte/icons/dist/24/send';
+import Icon24Add from '@vkontakte/icons/dist/24/add';
 
 class ActionButton extends React.Component{
 
     render() {
         return(
-            <Button style={this.getStyle()}>{this.props.text}</Button>
+            <CellButton style={this.getStyle()} before={<Icon24Send style={{color:"#4D708B"}}/>} >{this.props.text}</CellButton>
         )
     }
 
@@ -16,8 +18,7 @@ class ActionButton extends React.Component{
                 marginLeft: "1%",
                 marginRight: "1%",
                 marginTop: "1%",
-                color:"white",
-                backgroundColor:"#306771",
+                color:"#AC9357"
             }
         )
     }
