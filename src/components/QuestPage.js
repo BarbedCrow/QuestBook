@@ -4,7 +4,6 @@ import TextBox from "./TextBox";
 import ActionButton from "./ActionButton";
 import ButtonsList from "./ButtonsList";
 import ImageContainer from "./ImageContainer";
-import {Card, Button} from "react-bootstrap"
 
 class QuestPage extends React.Component{
 
@@ -28,7 +27,6 @@ class QuestPage extends React.Component{
             justifyContent:'flex-start space-around',
             alignItems:"space-around",
             alignContent:"space-around",
-            backgroundColor: "#AC9357"
         };
     }
 
