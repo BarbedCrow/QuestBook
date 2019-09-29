@@ -14,11 +14,11 @@ class QuestButtonsList extends React.Component{
 
     getStyle(){
         return{
+            height:"auto",
             display:"flex",
             flexDirection:"column",
             justifyContent:"space-around",
             alignContent:"space-around",
-            height:"auto"
         }
     }
 
