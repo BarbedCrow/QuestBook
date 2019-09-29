@@ -18,10 +18,10 @@ class QuestsView(APIView):
 
     def get(self, request):
         vk_id = request.GET.get("vk_id")
-        if vk_id is None:
-            return Response(data={"error": "vk_id not provided"}, status=400)
-        user = ensure_user_exists(vk_id)
-        quests = Quest.objects.filter(creator=user)
+        quests = Quest.objects.all()
+        if vk_id is not None:
+            user = ensure_user_exists(vk_id)
+            quests = Quest.objects.filter(creator=user)
         return Response(data=QuestSerializer(quests, many=True).data)
 
     def post(self, request):
@@ -50,3 +50,10 @@ class QuestView(APIView):
         quest.data = data
         quest.save()
         return Response("OK")
+
+    def get(self, request, quest_id):
+        quest = Quest.objects.filter(pk=quest_id)
+        if not quest.exists():
+            return Response(data={"error": f"quest with id {quest_id} not found"}, status=400)
+        quest = quest.first()
+        return Response(data={QuestSerializer(quest).data})

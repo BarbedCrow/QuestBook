@@ -45,5 +45,7 @@ class Quest(models.Model):
     data = models.TextField()
     creator = models.ForeignKey(VkUser, on_delete=models.CASCADE)
     is_published = models.BooleanField(default=False)
+    title = models.TextField()
+    description = models.TextField(null=True, blank=True)
 
 # id = 7150504
