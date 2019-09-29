@@ -2,7 +2,7 @@
 set -e
 
 MAIN_DIR=/var/www/questbook
-ROOT_DIR=/var/www/questbook/QuestBook/backend
+ROOT_DIR=/var/www/questbook/QuestBook
 BACKEND_DIR=/var/www/questbook/backend
 FRONTEND_DIR=/var/www/questbook/frontend
 STATIC_DIR=/var/www/questbook/static
@@ -32,7 +32,7 @@ cp -r $FRONTEND_DIR/build/* $STATIC_DIR
 rm $STATIC_DIR/index.html
 
 echo updating pip packages...
-$MAIN_DIR/.env/bin/pip install -r $ROOT_DIR/requirements.txt
+$MAIN_DIR/.env/bin/pip install -r $ROOT_DIR/backend/requirements.txt
 
 echo copying local settings...
 cp $MAIN_DIR/local_settings.py $BACKEND_DIR/questbook
