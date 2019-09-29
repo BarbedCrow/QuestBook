@@ -1,23 +1,12 @@
 import React from 'react';
 import './App.css';
-import MyGraph from "./graph";
+import Main from "./components/Main";
 
-class App extends React.Component{
-
-  render(){
-    return(
-        <div style ={this.getStyle()}>
-          <MyGraph />
-        </div>
+class App extends React.Component {
+  render() {
+    return (
+        <Main/>
     )
   }
-
-  getStyle(){
-    return {
-      backgroundColor: "#e3dac9",
-      height:"100%"
-    };
-  }
-
 }
 export default App;

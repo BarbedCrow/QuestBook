@@ -1,0 +1,48 @@
+.small-text {
+    margin: 0;
+    font-size: 12px;
+}
+
+.graph-node {
+    /*height: 70%;*/
+    height: calc(100% - 10px);
+    width: calc(100% - 10px);
+    background: white;
+    overflow: hidden;
+    border-radius: 5%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+}
+
+.graph-node-selected {
+    /*height: 70%;*/
+    height: calc(100% - 10px);
+    width: calc(100% - 10px);
+    background: white;
+    overflow: hidden;
+    border-radius: 5%;
+    display: flex;
+    flex-direction: column;
+    border: 3px solid blue;
+}
+
+.graph-node-base {
+    background: #09d3ac;
+}
+
+.graph-node-logic {
+    background: blanchedalmond;
+}
+
+.graph-node-content-wrapper {
+    padding: 3px;
+}
+
+.graph-node-id-wrapper {
+    background: darkgrey;
+    border-bottom: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

@@ -1,0 +1,44 @@
+.text-nomargin {
+    margin: 0;
+}
+
+.configpanel-wrapper {
+    background: honeydew;
+    height: 690px;
+    width: calc(100% - 10px);
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+}
+
+.configpanel-type-select-wrapper {
+    display: flex;
+}
+
+.configpanel-links-item-wrapper {
+    border: 1px solid black;
+    padding: 3px;
+    display: flex;
+}
+
+.configpanel-links-item-data-wrapper {
+    flex-grow: 1;
+}
+
+.configpanel-links-item-delete-button-wrapper {
+    margin-left: 10px;
+}
+
+.configpanel-link-add-wrapper {
+    border: 1px solid black;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.configpanel-link-add-id-wrapper {
+    width: 150px;
+}
