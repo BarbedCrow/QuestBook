@@ -142,6 +142,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 CSRF_HEADER_NAME = 'CSRF_COOKIE'
 
+CORS_ORIGIN_ALLOW_ALL = True
+
 try:
     from .local_settings import *
 except ImportError:
