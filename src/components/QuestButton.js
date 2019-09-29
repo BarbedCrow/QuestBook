@@ -3,14 +3,24 @@ import {Button} from "@vkontakte/vkui";
 
 class QuestButton extends React.Component{
 
+    constructor(){
+        super()
+
+        this.onClick = this.onClick.bind(this)
+    }
+
     render(){
         return(
             <div style={this.getStyle()}>
                 <h1>{this.props.header}</h1>
                 <p>{this.props.desc}</p>
-                <Button style={this.getBtnStyle()}>Start</Button>
+                <Button onClick={this.onClick} style={this.getBtnStyle()}>Start</Button>
             </div>
         )
+    }
+
+    onClick(){
+        this.props.onButtonClick(this.props.id)
     }
 
     getBtnStyle(){
