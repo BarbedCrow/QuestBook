@@ -1,7 +1,8 @@
 #!/bin/bash
 set -e
 
-ROOT_DIR=/var/www/questbook/QuestBook
+MAIN_DIR=/var/www/questbook
+ROOT_DIR=/var/www/questbook/QuestBook/backend
 BACKEND_DIR=/var/www/questbook/backend
 FRONTEND_DIR=/var/www/questbook/frontend
 STATIC_DIR=/var/www/questbook/static
