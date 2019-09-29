@@ -39,7 +39,8 @@ class Main extends React.Component {
         return JSON.stringify({
             nodes: this.state.nodes,
             globals: this.state.globals,
-            finishNodes: this.state.finishNodes,
+            goodNodes: this.state.goodNodes,
+            badNodes: this.state.badNodes,
             startNode: this.state.startNode
         })
     }
@@ -67,7 +68,8 @@ class Main extends React.Component {
                     dataLoaded: true,
                     nodes: data.nodes,
                     globals: data.globals,
-                    finishNodes: data.finishNodes,
+                    goodNodes: data.goodNodes,
+                    badNodes: data.badNodes,
                     startNode: data.startNode,
                     isPublished: data.isPublished
                 })
@@ -84,14 +86,26 @@ class Main extends React.Component {
         return this.state.nodes.filter(node => node.id === this.state.selectedNodeId)[0];
     }
 
+    isStart(node) {
+        // console.log(this.state.startNode);
+        // console.log(node.id);
+        // console.log(parseInt(this.state.startNode) === parseInt(node.id));
+        return parseInt(this.state.startNode) === parseInt(node.id)
+    }
+
     formattedData() {
         console.log(this.state.nodes);
         let nodes = this.state.nodes.map(node => {
             return {
                 id: node.id,
                 viewGenerator: node => (
-                    <CustomNode node={node}
-                                isSelected={parseInt(node.id) === parseInt(this.state.selectedNodeId)}/>
+                    <CustomNode
+                        node={node}
+                        isSelected={parseInt(node.id) === parseInt(this.state.selectedNodeId)}
+                        isStart={this.isStart(node)}
+                        isGoodFinish={this.state.goodNodes.includes(parseInt(node.id))}
+                        isBadFinish={this.state.badNodes.includes(parseInt(node.id))}
+                    />
                 ),
                 svg: '',
                 size: 700,

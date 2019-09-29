@@ -11,6 +11,14 @@ export class CustomNode extends React.Component {
             <div className="graph-node-id-wrapper">
                 <p className="small-text">{data.id}</p>
             </div>
+            {this.props.isStart &&
+            <div style={{ borderBottom: "1px solid grey" }}>
+                <p className="small-text">начало</p>
+            </div>}
+            {(this.props.isGoodFinish || this.props.isBadFinish) &&
+            <div style={{ borderBottom: "1px solid grey" }}>
+                <p className="small-text">конец</p>
+            </div>}
             <div className="graph-node-content-wrapper">
                 {data.code !== undefined &&
                 <p className="small-text">{data.code}</p>}
