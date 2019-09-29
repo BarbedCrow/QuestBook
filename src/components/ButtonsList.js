@@ -7,9 +7,9 @@ class ButtonsList extends React.Component{
     render() {
         const btns = this.props.actions.map((button) => {
             return(
-                <div>
+                <div key={button.text}>
                     <ActionButton text = {button.text} action = {button.action} />
-                    <Divider variant="inset"  />
+                    <Divider variant="inset"/>
                 </div>
             )
         });

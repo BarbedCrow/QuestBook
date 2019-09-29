@@ -36,10 +36,10 @@ class Inventory extends React.Component{
 
     parseGlobal(global){
         if(global.type === 0 || global.type === 2){
-            return <h3>{global.justifyName}: {global.value}</h3>
+            return <h3 key={global.justifyName}>{global.justifyName}: {global.value}</h3>
         }else if(global.type === 1){
             return(
-                <div>
+                <div key={global.justifyName}>
                     <h3>{global.justifyName}:</h3>
                     <BorderLinearProgress
                         variant="determinate"
@@ -51,7 +51,7 @@ class Inventory extends React.Component{
         }else if(global.type === 3){
             const items = global.value.map((item) => {
                 return(
-                    <div style={this.itemStyle()}>
+                    <div key={item} style={this.itemStyle()}>
                         <ListItem button>
                             <ListItemIcon>
                                 <FiberManualRecordOutlinedIcon />
@@ -62,7 +62,7 @@ class Inventory extends React.Component{
                 )
             });
             return(
-                <div style={this.itemsListStyle()}>
+                <div key={global.justifyName} style={this.itemsListStyle()}>
                     <h3>{global.justifyName}:</h3>
                     {items}
                 </div>
