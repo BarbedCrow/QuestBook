@@ -1,6 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from core.serializers import *
+from rest_framework import renderers
 
 logger = logging.getLogger("general")
 
@@ -13,6 +14,8 @@ def ensure_user_exists(vk_id):
 
 
 class QuestsView(APIView):
+    renderer_classes = [renderers.JSONRenderer]
+
     def get(self, request):
         vk_id = request.GET.get("vk_id")
         if vk_id is None:
@@ -34,6 +37,8 @@ class QuestsView(APIView):
 
 
 class QuestView(APIView):
+    renderer_classes = [renderers.JSONRenderer]
+
     def post(self, request, quest_id):
         quest = Quest.objects.filter(pk=quest_id)
         if not quest.exists():
