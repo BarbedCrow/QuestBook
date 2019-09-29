@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-ROOT_DIR=/var/www/questbook/questbook
+ROOT_DIR=/var/www/questbook/QuestBook
 BACKEND_DIR=/var/www/questbook/backend
 FRONTEND_DIR=/var/www/questbook/frontend
 STATIC_DIR=/var/www/questbook/static
@@ -13,8 +13,8 @@ mkdir -p $FRONTEND_DIR
 mkdir -p $STATIC_DIR
 
 echo copying files to $BACKEND_DIR and $FRONTEND_DIR...
-cp -r $ROOT_DIR/questbook/* $BACKEND_DIR
-cp -r $ROOT_DIR/frontend/* $FRONTEND_DIR
+cp -r $ROOT_DIR/backend/* $BACKEND_DIR
+cp -r $ROOT_DIR/admin-frontend/* $FRONTEND_DIR
 echo done
 
 cd $FRONTEND_DIR
@@ -24,11 +24,11 @@ echo building frontend...
 npm run build
 
 echo copying index.html to $BACKEND_DIR/templates
+mkdir $BACKEND_DIR/templates
 cp $FRONTEND_DIR/build/index.html $BACKEND_DIR/templates
 echo copying static files to $STATIC_DIR...
 cp -r $FRONTEND_DIR/build/* $STATIC_DIR
 rm $STATIC_DIR/index.html
-
 
 echo updating pip packages...
 $MAIN_DIR/.env/bin/pip install -r $ROOT_DIR/requirements.txt
