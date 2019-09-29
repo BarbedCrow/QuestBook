@@ -24,6 +24,8 @@ class QuestPage extends React.Component{
     }
 
     render() {
+        console.log(this.props.node)
+        const actions = (this.props.node.isLast)? this.props.node.endpointActions : this.props.node.actions
         const content = (this.state.inInventory)?
             <div style={this.getStyle()}>
                 {(this.props.node.image != null) ? <ImageContainer image={this.props.node.image}/> : null}
@@ -37,7 +39,7 @@ class QuestPage extends React.Component{
                     (this.props.node.input != null)?
                         <InputText onCheckSuccess={this.onCheckInputSuccess} answer={this.props.node.input}/>
                         :
-                        <ButtonsList actions={this.props.node.actions}/>
+                        <ButtonsList actions={actions}/>
                 }
             </div>;
         return(
