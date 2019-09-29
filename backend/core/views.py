@@ -56,4 +56,4 @@ class QuestView(APIView):
         if not quest.exists():
             return Response(data={"error": f"quest with id {quest_id} not found"}, status=400)
         quest = quest.first()
-        return Response(data={QuestSerializer(quest).data})
+        return Response(data=QuestSerializer(quest).data)
