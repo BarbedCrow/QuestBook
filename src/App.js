@@ -1,83 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import '@vkontakte/vkui/dist/vkui.css';
-import Quest from "./components/Quest"
-import QuestButtonsList from "./components/QuestButtonsList";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';import AppBar from "@material-ui/core/AppBar";
-import makeStyles from "@material-ui/core/styles/makeStyles";
-
-const buttons = [
-	{header:"Quest 1", id:"1" , desc:"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."},
-	{header:"Quest 2", id:"2" , desc:"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."},
-	{header:"Quest 3", id:"3" , desc:"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."},
-	{header:"Quest 4", id:"4" , desc:"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."},
-	{header:"Quest 5", id:"5" , desc:"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."},
-	{header:"Quest 6", id:"6" , desc:"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."},
-	{header:"Quest 7", id:"7" , desc:"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."},
-	{header:"Quest 8", id:"8" , desc:"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."},
-	{header:"Quest 9", id:"9" , desc:"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."},
-	{header:"Quest 10", id:"10", desc:"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."},
-
-];
+import {Root, View, Panel, PanelHeader, Group, CellButton} from "@vkontakte/vkui";
 
 class App extends React.Component{
 
-	constructor(){
-		super()
+	constructor(props){
+		super(props);
 
 		this.state={
-			currentQuestId:""
+			activeView:"view1"
 		}
-
-		this.onButtonClick = this.onButtonClick.bind(this)
-		this.onBackButtonClick = this.onBackButtonClick.bind(this)
 	}
 
-	render(){
-		const classes = makeStyles(theme => ({
-			root: {
-				flexGrow: 1,
-			},
-			menuButton: {
-				marginRight: theme.spacing(2),
-			},
-			title: {
-				flexGrow: 1,
-			},
-		}));
-
-		const backBtn = (this.state.currentQuestId !== "") ?
-			<IconButton edge="start" onClick={this.onBackButtonClick} className={classes.menuButton} color="inherit" aria-label="menu">
-				<ArrowBackIosIcon />
-			</IconButton>
-			:
-			null
-
-		const content = (this.state.currentQuestId === "")?
-			<QuestButtonsList buttons = {buttons} onButtonClick={this.onButtonClick}/>
-			:
-			<Quest onBackButtonClick={this.onBackButtonClick} id ={this.state.currentQuestId}/>
-		return(
-			<div style ={this.getStyle()}>
-				<AppBar position={"sticky"} style={{backgroundColor:"#4D708B"}}>
-					<Toolbar>
-						{backBtn}
-						<Typography variant="h6" className={classes.title}>QuestBook</Typography>
-					</Toolbar>
-				</AppBar>
-				{content}
-			</div>
+	render() {
+		return (
+			<Root activeView={this.state.activeView}>
+				<View activePanel="panel1" id="view1">
+					<Panel id="panel1">
+						<PanelHeader>Quests</PanelHeader>
+						<Group>
+							<CellButton onClick={ () => this.setState({ activeView: 'view2' }) }>
+								Open Quest
+							</CellButton>
+						</Group>
+					</Panel>
+				</View>
+				<View activePanel="panel2" id="view2">
+					<Panel id="panel2">
+						<PanelHeader>Quest</PanelHeader>
+						<Group>
+							<CellButton onClick={ () => this.setState({ activeView: 'view1' }) }>
+								Back to Quests
+							</CellButton>
+						</Group>
+					</Panel>
+				</View>
+			</Root>
 		)
-	}
-
-	onBackButtonClick(){
-		this.onButtonClick("")
-	}
-
-	onButtonClick(id){
-		this.setState({currentQuestId:id})
 	}
 
 	getStyle(){
