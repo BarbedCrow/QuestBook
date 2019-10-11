@@ -1,50 +1,118 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import '@vkontakte/vkui/dist/vkui.css';
-import {Root, View, Panel, PanelHeader, Group, CellButton} from "@vkontakte/vkui";
+import {Root, View, Panel, PanelHeader, Group, Spinner, HeaderButton, platform, IOS} from "@vkontakte/vkui";
+import Icon24Back from '@vkontakte/icons/dist/24/back';
+import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
+import QuestList from "./components/Quest/QuestList";
+import Quest from "./components/Quest/Quest";
+
+const textPlaceholder1 = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
+
+const actionPlaceholder1 = {id:"0", type:0, text:"Some action text"};
+const actionPlaceholder2 = {id:"1", type:0, text:"Some text about how i like to do anything instead of my job"};
+const actionPlaceholder3 = {id:"2", type:0, text:"Some action text without any sense of logic"};
+const actions = [
+	actionPlaceholder1,
+	actionPlaceholder2,
+	actionPlaceholder3
+];
+
+const questNodes = [
+	{id:"1", text:textPlaceholder1, image:"https://cdn.shopify.com/s/files/1/1728/2157/products/05-62680_KidsReplacementBall_Green_A_1024x1024.jpg?v=1553029312", actions:actions},
+];
+
+const quests = [
+	{id:"1", name:"Quest1", desc:"Lorem ipsum dolor sit amet", author:"Andrew Bamby", nodes: questNodes},
+	{id:"2", name:"Second Quest", desc:"Some placeholder text about how cool this quest is", author:"Kremdlya ZhepbI", nodes: questNodes},
+	{id:"3", name:"The third and the last quest", desc:"The most unbelievable quest on the planet Earth.Trust me.", author:"The most unbelievable man on the planet Mars", nodes: questNodes}
+];
 
 class App extends React.Component{
+
+	questListView = "questList";
+	questListPanel = "questListPanel";
+	questView = "quest";
+	questPanel = "questPanel";
+
+	osname = platform();
 
 	constructor(props){
 		super(props);
 
+		this.requestQuests = this.requestQuests.bind(this);
+		this.onQuestButtonClick = this.onQuestButtonClick.bind(this);
+		this.onRequestBackToQuestList = this.onRequestBackToQuestList.bind(this);
+
 		this.state={
-			activeView:"view1"
-		}
+			activeView:this.questListView,
+			activeQuest:null,
+			quests:null
+		};
+	}
+
+	componentDidMount() {
+		this.requestQuests();
 	}
 
 	render() {
 		return (
-			<Root activeView={this.state.activeView}>
-				<View activePanel="panel1" id="view1">
-					<Panel id="panel1">
-						<PanelHeader>Quests</PanelHeader>
-						<Group>
-							<CellButton onClick={ () => this.setState({ activeView: 'view2' }) }>
-								Open Quest
-							</CellButton>
-						</Group>
-					</Panel>
-				</View>
-				<View activePanel="panel2" id="view2">
-					<Panel id="panel2">
-						<PanelHeader>Quest</PanelHeader>
-						<Group>
-							<CellButton onClick={ () => this.setState({ activeView: 'view1' }) }>
-								Back to Quests
-							</CellButton>
-						</Group>
-					</Panel>
-				</View>
-			</Root>
+			this.state.quests === null ?
+				<Spinner size="large" />
+				:
+				<Root activeView={this.state.activeView}>
+					<View activePanel={this.questListPanel} id={this.questListView}>
+						<Panel id={this.questListPanel}>
+							<PanelHeader>Quests</PanelHeader>
+							<Group>
+								<QuestList quests ={this.state.quests} onQuestButtonClick={this.onQuestButtonClick} />
+							</Group>
+						</Panel>
+					</View>
+					<View activePanel={this.questPanel} id={this.questView}>
+						<Panel id={this.questPanel}>
+							<PanelHeader
+								left={
+									<HeaderButton onClick={this.onRequestBackToQuestList}>
+										{this.osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>}
+									</HeaderButton>
+								}
+							>
+								{this.state.activeQuest !== null ? this.state.activeQuest.name : null}
+							</PanelHeader>
+							<Group>
+								{this.state.activeQuest !== null ? <Quest quest = {this.state.activeQuest}/> : <Spinner size="large" />}
+							</Group>
+						</Panel>
+					</View>
+				</Root>
 		)
 	}
 
-	getStyle(){
-		return {
-			background: 'radial-gradient(#D6C594, #938B6A)',
-			height:"auto",
-			minHeight:"100vh"
-		};
+	requestQuests(){
+		this.setState({quests:quests})
+	}
+
+	getQuest(id){
+		for(let i = 0; i < this.state.quests.length; i += 1){
+			const quest = this.state.quests[i];
+			if(quest.id === id){
+				return quest;
+			}
+		}
+	}
+
+	onRequestBackToQuestList(){
+		this.setState({
+			activeView:this.questListView,
+			activeQuest:null
+		})
+	}
+
+	onQuestButtonClick(id){
+		this.setState({
+			activeView:this.questView,
+			activeQuest:this.getQuest(id)
+		})
 	}
 
 }

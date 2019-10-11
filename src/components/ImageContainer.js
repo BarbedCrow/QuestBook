@@ -14,7 +14,6 @@ class ImageContainer extends React.Component{
             marginTop: "1%",
             border:"1px solid black",
             borderRadius:"5px",
-            backgroundColor:"#384649",
             flex:1,
             alignSelf:"stretch",
             objectFit:"contain",
