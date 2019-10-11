@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.js": "/QuestBook/static/js/main.5931bcf1.chunk.js",
-    "main.js.map": "/QuestBook/static/js/main.5931bcf1.chunk.js.map",
+    "main.js": "/QuestBook/static/js/main.7dd4b4a0.chunk.js",
+    "main.js.map": "/QuestBook/static/js/main.7dd4b4a0.chunk.js.map",
     "runtime-main.js": "/QuestBook/static/js/runtime-main.a90699d6.js",
     "runtime-main.js.map": "/QuestBook/static/js/runtime-main.a90699d6.js.map",
     "static/css/2.70f3b80d.chunk.css": "/QuestBook/static/css/2.70f3b80d.chunk.css",
-    "static/js/2.313f1c54.chunk.js": "/QuestBook/static/js/2.313f1c54.chunk.js",
-    "static/js/2.313f1c54.chunk.js.map": "/QuestBook/static/js/2.313f1c54.chunk.js.map",
+    "static/js/2.5c50ba4e.chunk.js": "/QuestBook/static/js/2.5c50ba4e.chunk.js",
+    "static/js/2.5c50ba4e.chunk.js.map": "/QuestBook/static/js/2.5c50ba4e.chunk.js.map",
     "index.html": "/QuestBook/index.html",
-    "precache-manifest.577e049a61d992cb3b226007d59f8c16.js": "/QuestBook/precache-manifest.577e049a61d992cb3b226007d59f8c16.js",
+    "precache-manifest.4539b56c770f1cad77dc566249b30c98.js": "/QuestBook/precache-manifest.4539b56c770f1cad77dc566249b30c98.js",
     "service-worker.js": "/QuestBook/service-worker.js",
     "static/css/2.70f3b80d.chunk.css.map": "/QuestBook/static/css/2.70f3b80d.chunk.css.map"
   },
   "entrypoints": [
     "static/js/runtime-main.a90699d6.js",
     "static/css/2.70f3b80d.chunk.css",
-    "static/js/2.313f1c54.chunk.js",
-    "static/js/main.5931bcf1.chunk.js"
+    "static/js/2.5c50ba4e.chunk.js",
+    "static/js/main.7dd4b4a0.chunk.js"
   ]
 }
