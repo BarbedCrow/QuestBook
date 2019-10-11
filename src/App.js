@@ -1,6 +1,6 @@
 import React from 'react';
 import '@vkontakte/vkui/dist/vkui.css';
-import {Root, View, Panel, PanelHeader, Group, Spinner, HeaderButton, platform, IOS} from "@vkontakte/vkui";
+import {Root, View, Panel, PanelHeader, Spinner, HeaderButton, platform, IOS} from "@vkontakte/vkui";
 import Icon24Back from '@vkontakte/icons/dist/24/back';
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import QuestList from "./components/Quest/QuestList";
@@ -8,17 +8,20 @@ import Quest from "./components/Quest/Quest";
 
 const textPlaceholder1 = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
 
-const actionPlaceholder1 = {id:"0", type:0, text:"Some action text"};
-const actionPlaceholder2 = {id:"1", type:0, text:"Some text about how i like to do anything instead of my job"};
-const actionPlaceholder3 = {id:"2", type:0, text:"Some action text without any sense of logic"};
+const actionPlaceholder1 = {id:"0", nextNodeId:"1", type:0, text:"Some action text"};
+const actionPlaceholder2 = {id:"1", nextNodeId:"0", type:0, text:"Some text about how i like to do anything instead of my job"};
+const actionPlaceholder3 = {id:"2", nextNodeId:"1", type:0, text:"Some action text without any sense of logic"};
 const actions = [
 	actionPlaceholder1,
 	actionPlaceholder2,
 	actionPlaceholder3
 ];
 
+const questNodePlaceholder1 ={id:"0", text:textPlaceholder1, image:"https://cdn.akc.org/Marketplace/Breeds/Staffordshire_Bull_Terrier_SERP.jpg", actions:actions};
+const questNodePlaceholder2 ={id:"1", text:textPlaceholder1, image:"https://www.k9web.com/wp-content/uploads/2019/01/staffordshire-bull-terrier.jpg", actions:actions};
 const questNodes = [
-	{id:"1", text:textPlaceholder1, image:"https://cdn.shopify.com/s/files/1/1728/2157/products/05-62680_KidsReplacementBall_Green_A_1024x1024.jpg?v=1553029312", actions:actions},
+	questNodePlaceholder1,
+	questNodePlaceholder2
 ];
 
 const quests = [
@@ -63,9 +66,7 @@ class App extends React.Component{
 					<View activePanel={this.questListPanel} id={this.questListView}>
 						<Panel id={this.questListPanel}>
 							<PanelHeader>Quests</PanelHeader>
-							<Group>
-								<QuestList quests ={this.state.quests} onQuestButtonClick={this.onQuestButtonClick} />
-							</Group>
+							<QuestList quests ={this.state.quests} onQuestButtonClick={this.onQuestButtonClick} />
 						</Panel>
 					</View>
 					<View activePanel={this.questPanel} id={this.questView}>
@@ -79,9 +80,7 @@ class App extends React.Component{
 							>
 								{this.state.activeQuest !== null ? this.state.activeQuest.name : null}
 							</PanelHeader>
-							<Group>
-								{this.state.activeQuest !== null ? <Quest quest = {this.state.activeQuest}/> : <Spinner size="large" />}
-							</Group>
+							{this.state.activeQuest !== null ? <Quest quest={this.state.activeQuest}/> : <Spinner size="large" />}
 						</Panel>
 					</View>
 				</Root>
