@@ -51,7 +51,8 @@ class App extends React.Component{
 		this.state={
 			activeView:QUEST_LIST_VIEW,
 			activeQuest:null,
-			quests:null
+			quests:null,
+            isFirstLaunch:true
 		};
 	}
 
@@ -83,7 +84,7 @@ class App extends React.Component{
                                 >
                                     {this.state.activeQuest !== null ? this.state.activeQuest.name : null}
                                 </PanelHeader>
-                                {this.state.activeQuest !== null ? <Quest onRef={ref => (this.quest = ref) } quest={this.state.activeQuest}/> : <Spinner size="large" />}
+                                {this.state.activeQuest !== null ? <Quest onRef={ref => (this.quest = ref) } quest={this.state.activeQuest} isFirstLaunch={this.state.isFirstLaunch}/> : <Spinner size="large" />}
                             </Panel>
                         </View>
 

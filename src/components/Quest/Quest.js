@@ -1,8 +1,7 @@
 import React from "react"
-import {Group, Div} from "@vkontakte/vkui"
+import {Group, Div, Tooltip} from "@vkontakte/vkui"
 import ImageContainer from "../ImageContainer";
 import QuestActionList from "./Action/QuestActionList";
-import Button from "../Button";
 import QuestInventory from "./QuestInventory";
 
 class Quest extends React.Component{
@@ -15,7 +14,8 @@ class Quest extends React.Component{
         this.state = {
             quest: this.props.quest,
             activeNodeIdx: 0,
-            activeModal: null
+            activeModal: null,
+            isShowInventoryTip:this.props.isFirstLaunch
         };
     }
 
@@ -57,9 +57,16 @@ class Quest extends React.Component{
                     </Div>
                 </Group>
 
+                <Tooltip
+                    text={"To show additional info about your character current state swipe from bottom to top in lower quarter of the screen."}
+                    isShown={this.state.isShowInventoryTip}
+                    onClose={()=>{this.setState({isShowInventoryTip:false})}}
+                >
+                    <Group></Group>
+                </Tooltip>
+
                 <QuestActionList actions={activeNode.actions} onButtonClick={this.onNodeActionClick}/>
                 <QuestInventory onRef={ref => (this.inventory = ref)}/>
-
             </Div>
 
         )
