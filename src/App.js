@@ -5,6 +5,7 @@ import Icon24Back from '@vkontakte/icons/dist/24/back';
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import QuestList from "./components/Quest/QuestList";
 import Quest from "./components/Quest/Quest";
+import Swipe from "react-easy-swipe";
 
 const textPlaceholder1 = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
 
@@ -30,12 +31,12 @@ const quests = [
 	{id:"3", name:"The third and the last quest", desc:"The most unbelievable quest on the planet Earth.Trust me.", author:"The most unbelievable man on the planet Mars", nodes: questNodes}
 ];
 
-class App extends React.Component{
+const QUEST_LIST_VIEW = "questList";
+const QUEST_LIST_PANEL = "questListPanel";
+const QUEST_VIEW = "quest";
+const QUEST_PANEL = "questPanel";
 
-	questListView = "questList";
-	questListPanel = "questListPanel";
-	questView = "quest";
-	questPanel = "questPanel";
+class App extends React.Component{
 
 	osname = platform();
 
@@ -45,9 +46,10 @@ class App extends React.Component{
 		this.requestQuests = this.requestQuests.bind(this);
 		this.onQuestButtonClick = this.onQuestButtonClick.bind(this);
 		this.onRequestBackToQuestList = this.onRequestBackToQuestList.bind(this);
+        this.onSwipeMove = this.onSwipeMove.bind(this);
 
 		this.state={
-			activeView:this.questListView,
+			activeView:QUEST_LIST_VIEW,
 			activeQuest:null,
 			quests:null
 		};
@@ -60,30 +62,33 @@ class App extends React.Component{
 	render() {
 		return (
 			this.state.quests === null ?
-				<Spinner size="large" />
-				:
-				<Root activeView={this.state.activeView}>
-					<View activePanel={this.questListPanel} id={this.questListView}>
-						<Panel id={this.questListPanel}>
-							<PanelHeader>Quests</PanelHeader>
-							<QuestList quests ={this.state.quests} onQuestButtonClick={this.onQuestButtonClick} />
-						</Panel>
-					</View>
-					<View activePanel={this.questPanel} id={this.questView}>
-						<Panel id={this.questPanel}>
-							<PanelHeader
-								left={
-									<HeaderButton onClick={this.onRequestBackToQuestList}>
-										{this.osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>}
-									</HeaderButton>
-								}
-							>
-								{this.state.activeQuest !== null ? this.state.activeQuest.name : null}
-							</PanelHeader>
-							{this.state.activeQuest !== null ? <Quest quest={this.state.activeQuest}/> : <Spinner size="large" />}
-						</Panel>
-					</View>
-				</Root>
+                <Spinner size="large" />
+                :
+                <Swipe onSwipeMove={this.onSwipeMove}>
+                    <Root activeView={this.state.activeView}>
+                        <View activePanel={QUEST_LIST_PANEL} id={QUEST_LIST_VIEW}>
+                            <Panel id={QUEST_LIST_PANEL}>
+                                <PanelHeader>Quests</PanelHeader>
+                                <QuestList quests ={this.state.quests} onQuestButtonClick={this.onQuestButtonClick} />
+                            </Panel>
+                        </View>
+                        <View activePanel={QUEST_PANEL} id={QUEST_VIEW}>
+                            <Panel id={QUEST_PANEL}>
+                                <PanelHeader
+                                    left={
+                                        <HeaderButton onClick={this.onRequestBackToQuestList}>
+                                            {this.osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>}
+                                        </HeaderButton>
+                                    }
+                                >
+                                    {this.state.activeQuest !== null ? this.state.activeQuest.name : null}
+                                </PanelHeader>
+                                {this.state.activeQuest !== null ? <Quest onRef={ref => (this.quest = ref) } quest={this.state.activeQuest}/> : <Spinner size="large" />}
+                            </Panel>
+                        </View>
+
+                    </Root>
+                </Swipe>
 		)
 	}
 
@@ -102,17 +107,25 @@ class App extends React.Component{
 
 	onRequestBackToQuestList(){
 		this.setState({
-			activeView:this.questListView,
+			activeView:QUEST_LIST_VIEW,
 			activeQuest:null
 		})
 	}
 
 	onQuestButtonClick(id){
 		this.setState({
-			activeView:this.questView,
+			activeView:QUEST_VIEW,
 			activeQuest:this.getQuest(id)
 		})
 	}
+
+    onSwipeMove(position, event){
+	    if (event.touches.length === 0){
+	        return;
+        }
+
+        this.quest.onSwipeMove(position, event)
+    }
 
 }
 

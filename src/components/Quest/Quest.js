@@ -2,21 +2,26 @@ import React from "react"
 import {Group, Div} from "@vkontakte/vkui"
 import ImageContainer from "../ImageContainer";
 import QuestActionList from "./Action/QuestActionList";
+import Button from "../Button";
+import QuestInventory from "./QuestInventory";
 
 class Quest extends React.Component{
 
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.onNodeActionClick = this.onNodeActionClick.bind(this);
 
         this.state = {
-            quest:this.props.quest,
-            activeNodeIdx:0
-        }
+            quest: this.props.quest,
+            activeNodeIdx: 0,
+            activeModal: null
+        };
     }
 
+
     componentDidMount() {
+        this.props.onRef(this);
         const activeNode = this.state.quest.nodes[this.state.activeNodeIdx];
         if(activeNode.actions === null){
             console.warn("actions is not set for node " + activeNode.id)
@@ -24,6 +29,10 @@ class Quest extends React.Component{
         if(activeNode.text === ""){
             console.warn("actions is not set for node " + activeNode.id)
         }
+    }
+
+    componentWillUnmount() {
+        this.props.onRef(null);
     }
 
     render(){
@@ -49,7 +58,10 @@ class Quest extends React.Component{
                 </Group>
 
                 <QuestActionList actions={activeNode.actions} onButtonClick={this.onNodeActionClick}/>
+                <QuestInventory onRef={ref => (this.inventory = ref)}/>
+
             </Div>
+
         )
     }
 
@@ -66,6 +78,10 @@ class Quest extends React.Component{
                 return node;
             }
         }
+    }
+
+    onSwipeMove(position, event){
+        this.inventory.onSwipeMove(position, event);
     }
 
 }
