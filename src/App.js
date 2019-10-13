@@ -25,10 +25,19 @@ const questNodes = [
 	questNodePlaceholder2
 ];
 
+const globals = [
+	{type:0, name:"Money", value:"15000"},
+	{type:0, name:"Authority", value:"1000"},
+	{type:1, name:"Health Points", value:"100"},
+	{type:1, name:"Manna", value:"100"},
+	{type:1, name:"Quest Completion", value:"35"},
+	{type:2, name:"Items", value:["Knife", "Chair", "Sugar"]},
+];
+
 const quests = [
-	{id:"1", name:"Quest1", desc:"Lorem ipsum dolor sit amet", author:"Andrew Bamby", nodes: questNodes},
-	{id:"2", name:"Second Quest", desc:"Some placeholder text about how cool this quest is", author:"Kremdlya ZhepbI", nodes: questNodes},
-	{id:"3", name:"The third and the last quest", desc:"The most unbelievable quest on the planet Earth.Trust me.", author:"The most unbelievable man on the planet Mars", nodes: questNodes}
+	{id:"1", name:"Quest1", desc:"Lorem ipsum dolor sit amet", author:"Andrew Bamby", globals: globals, nodes: questNodes},
+	{id:"2", name:"Second Quest", desc:"Some placeholder text about how cool this quest is", author:"Kremdlya ZhepbI", globals: globals, nodes: questNodes},
+	{id:"3", name:"The third and the last quest", desc:"The most unbelievable quest on the planet Earth.Trust me.", author:"The most unbelievable man on the planet Mars", globals: globals, nodes: questNodes}
 ];
 
 const QUEST_LIST_VIEW = "questList";

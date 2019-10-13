@@ -66,7 +66,7 @@ class Quest extends React.Component{
                 </Tooltip>
 
                 <QuestActionList actions={activeNode.actions} onButtonClick={this.onNodeActionClick}/>
-                <QuestInventory onRef={ref => (this.inventory = ref)}/>
+                <QuestInventory onRef={ref => (this.inventory = ref)} globals={this.state.quest.globals}/>
             </Div>
 
         )
