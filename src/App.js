@@ -10,19 +10,20 @@ import Swipe from "react-easy-swipe";
 const textPlaceholder1 = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
 
 const actionPlaceholder1 = {id:"0", nextNodeId:"1", type:0, text:"Some action text"};
-const actionPlaceholder2 = {id:"1", nextNodeId:"0", type:0, text:"Some text about how i like to do anything instead of my job"};
-const actionPlaceholder3 = {id:"2", nextNodeId:"1", type:0, text:"Some action text without any sense of logic"};
+const actionPlaceholder2 = {id:"1", nextNodeId:"2", type:0, text:"Some text about how i like to do anything instead of my job"};
+const actionPlaceholder3 = {id:"0", nextNodeId:"0", type:1, text:"Answer"};
 const actions = [
 	actionPlaceholder1,
 	actionPlaceholder2,
-	actionPlaceholder3
 ];
 
 const questNodePlaceholder1 ={id:"0", text:textPlaceholder1, image:"https://cdn.akc.org/Marketplace/Breeds/Staffordshire_Bull_Terrier_SERP.jpg", actions:actions};
 const questNodePlaceholder2 ={id:"1", text:textPlaceholder1, image:"https://www.k9web.com/wp-content/uploads/2019/01/staffordshire-bull-terrier.jpg", actions:actions};
+const questNodePlaceholder3 ={id:"2", text:textPlaceholder1, image:"https://www.allthingsdogs.com/wp-content/uploads/2018/10/American-Pitbull-Terrier-Sleeping.jpg", actions:[actionPlaceholder3]};
 const questNodes = [
 	questNodePlaceholder1,
-	questNodePlaceholder2
+	questNodePlaceholder2,
+	questNodePlaceholder3
 ];
 
 const globals = [

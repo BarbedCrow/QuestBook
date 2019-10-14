@@ -1,5 +1,5 @@
 import React from "react"
-import {Group, Div, Tooltip} from "@vkontakte/vkui"
+import {Group, Div, Tooltip, FormLayoutGroup, FormLayout, Input} from "@vkontakte/vkui"
 import ImageContainer from "../ImageContainer";
 import QuestActionList from "./Action/QuestActionList";
 import QuestInventory from "./QuestInventory";
@@ -10,6 +10,7 @@ class Quest extends React.Component{
         super(props);
 
         this.onNodeActionClick = this.onNodeActionClick.bind(this);
+        this.checkInputAnswer = this.checkInputAnswer.bind(this);
 
         this.state = {
             quest: this.props.quest,
@@ -37,7 +38,7 @@ class Quest extends React.Component{
 
     render(){
         if (this.state.activeNodeIdx < 0 || this.state.activeNodeIdx >= this.state.quest.nodes.length){
-            console.warn("activeNodeIdx is out of boundaries: " + this.state.activeNodeIdx)
+            console.warn("activeNodeIdx is out of boundaries: " + this.state.activeNodeIdx);
             return null
         }
 
@@ -62,10 +63,18 @@ class Quest extends React.Component{
                     isShown={this.state.isShowInventoryTip}
                     onClose={()=>{this.setState({isShowInventoryTip:false})}}
                 >
-                    <Group></Group>
+                    <Group/>
                 </Tooltip>
 
-                <QuestActionList actions={activeNode.actions} onButtonClick={this.onNodeActionClick}/>
+                {activeNode.actions.length === 1 && activeNode.actions[0].type === 1 ?
+                    <FormLayout>
+                        <FormLayoutGroup top="Answer">
+                            <Input type="text" defaultValue="" onChange={(e) => this.checkInputAnswer(e)}/>
+                        </FormLayoutGroup>
+                    </FormLayout>
+                    :
+                    <QuestActionList actions={activeNode.actions} onButtonClick={this.onNodeActionClick}/>
+                }
                 <QuestInventory onRef={ref => (this.inventory = ref)} globals={this.state.quest.globals}/>
             </Div>
 
@@ -89,6 +98,15 @@ class Quest extends React.Component{
 
     onSwipeMove(position, event){
         this.inventory.onSwipeMove(position, event);
+    }
+
+    checkInputAnswer(e){
+        const activeNode = this.state.quest.nodes[this.state.activeNodeIdx];
+        const action = activeNode.actions[0];
+        const val = e.target.value;
+        if (val === action.text){
+            this.setState({activeNodeIdx:action.nextNodeId});
+        }
     }
 
 }
