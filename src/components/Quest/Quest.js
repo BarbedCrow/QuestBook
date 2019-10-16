@@ -1,5 +1,5 @@
 import React from "react"
-import {Group, Div, Tooltip, FormLayoutGroup, FormLayout, Input} from "@vkontakte/vkui"
+import {Group, Div, FormLayoutGroup, FormLayout, Input, Gallery} from "@vkontakte/vkui"
 import ImageContainer from "../ImageContainer";
 import QuestActionList from "./Action/QuestActionList";
 import QuestInventory from "./QuestInventory";
@@ -22,7 +22,6 @@ class Quest extends React.Component{
 
 
     componentDidMount() {
-        this.props.onRef(this);
         const activeNode = this.state.quest.nodes[this.state.activeNodeIdx];
         if(activeNode.actions === null){
             console.warn("actions is not set for node " + activeNode.id)
@@ -30,10 +29,6 @@ class Quest extends React.Component{
         if(activeNode.text === ""){
             console.warn("actions is not set for node " + activeNode.id)
         }
-    }
-
-    componentWillUnmount() {
-        this.props.onRef(null);
     }
 
     render(){
@@ -44,40 +39,39 @@ class Quest extends React.Component{
 
         const activeNode = this.state.quest.nodes[this.state.activeNodeIdx];
         return(
-            <Div>
-                {
-                    activeNode.image !== "" ?
-                        <ImageContainer image={activeNode.image}/>
-                    :
-                    null
-                }
+            <Gallery
+                slideWidth="100%"
+                align={"center"}
+                style={{ height: "100%", width:"100%" }}
 
-                <Group>
-                    <Div>
-                        {activeNode.text !== "" ? activeNode.text : null}
-                    </Div>
-                </Group>
+            >
+                <div>
+                    {
+                        activeNode.image !== "" ?
+                            <ImageContainer image={activeNode.image}/>
+                            :
+                            null
+                    }
 
-                <Tooltip
-                    text={"To show additional info about your character current state swipe from bottom to top in lower quarter of the screen."}
-                    isShown={this.state.isShowInventoryTip}
-                    onClose={()=>{this.setState({isShowInventoryTip:false})}}
-                >
-                    <Group/>
-                </Tooltip>
+                    <Group>
+                        <Div>
+                            {activeNode.text !== "" ? activeNode.text : null}
+                        </Div>
+                    </Group>
 
-                {activeNode.actions.length === 1 && activeNode.actions[0].type === 1 ?
-                    <FormLayout>
-                        <FormLayoutGroup top="Answer">
-                            <Input type="text" defaultValue="" onChange={(e) => this.checkInputAnswer(e)}/>
-                        </FormLayoutGroup>
-                    </FormLayout>
-                    :
-                    <QuestActionList actions={activeNode.actions} onButtonClick={this.onNodeActionClick}/>
-                }
-                <QuestInventory onRef={ref => (this.inventory = ref)} globals={this.state.quest.globals}/>
-            </Div>
+                    {activeNode.actions.length === 1 && activeNode.actions[0].type === 1 ?
+                        <FormLayout>
+                            <FormLayoutGroup top="Answer">
+                                <Input type="text" defaultValue="" onChange={(e) => this.checkInputAnswer(e)}/>
+                            </FormLayoutGroup>
+                        </FormLayout>
+                        :
+                        <QuestActionList actions={activeNode.actions} onButtonClick={this.onNodeActionClick}/>
+                    }
+                </div>
+                <QuestInventory globals={this.state.quest.globals}/>
 
+            </Gallery>
         )
     }
 
@@ -94,10 +88,6 @@ class Quest extends React.Component{
                 return node;
             }
         }
-    }
-
-    onSwipeMove(position, event){
-        this.inventory.onSwipeMove(position, event);
     }
 
     checkInputAnswer(e){

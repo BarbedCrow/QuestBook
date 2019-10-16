@@ -1,11 +1,12 @@
 import React from 'react';
 import '@vkontakte/vkui/dist/vkui.css';
-import {Root, View, Panel, PanelHeader, Spinner, HeaderButton, platform, IOS} from "@vkontakte/vkui";
+import {View, Panel, PanelHeader, Spinner, HeaderButton, platform, IOS, Epic, Tabbar, TabbarItem} from "@vkontakte/vkui";
 import Icon24Back from '@vkontakte/icons/dist/24/back';
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
+import Icon28Newsfeed from '@vkontakte/icons/dist/28/newsfeed';
 import QuestList from "./components/Quest/QuestList";
 import Quest from "./components/Quest/Quest";
-import Swipe from "react-easy-swipe";
+import Profile from "./components/Profile";
 
 const textPlaceholder1 = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
 
@@ -36,17 +37,19 @@ const globals = [
 ];
 
 const quests = [
-	{id:"1", name:"Quest1", desc:"Lorem ipsum dolor sit amet", author:"Andrew Bamby", globals: globals, nodes: questNodes},
+	{id:"1", name:"The first quest", desc:"Lorem ipsum dolor sit amet", author:"Andrew Bamby", globals: globals, nodes: questNodes},
 	{id:"2", name:"Second Quest", desc:"Some placeholder text about how cool this quest is", author:"Kremdlya ZhepbI", globals: globals, nodes: questNodes},
 	{id:"3", name:"The third and the last quest", desc:"The most unbelievable quest on the planet Earth.Trust me.", author:"The most unbelievable man on the planet Mars", globals: globals, nodes: questNodes}
 ];
 
-const QUEST_LIST_VIEW = "questList";
-const QUEST_LIST_PANEL = "questListPanel";
-const QUEST_VIEW = "quest";
-const QUEST_PANEL = "questPanel";
-
 class App extends React.Component{
+
+	static QUEST_LIST_VIEW = "questList";
+	static QUEST_LIST_PANEL = "questListPanel";
+	static QUEST_VIEW = "quest";
+	static QUEST_PANEL = "questPanel";
+	static PROFILE_VIEW = "profile";
+	static PROFILE_PANEL = "profilePanel";
 
 	osname = platform();
 
@@ -56,10 +59,11 @@ class App extends React.Component{
 		this.requestQuests = this.requestQuests.bind(this);
 		this.onQuestButtonClick = this.onQuestButtonClick.bind(this);
 		this.onRequestBackToQuestList = this.onRequestBackToQuestList.bind(this);
-        this.onSwipeMove = this.onSwipeMove.bind(this);
+		this.onStoryChange = this.onStoryChange.bind(this);
 
 		this.state={
-			activeView:QUEST_LIST_VIEW,
+			activeStory:App.QUEST_LIST_VIEW,
+			activeQuestStory:App.QUEST_LIST_VIEW,
 			activeQuest:null,
 			quests:null,
             isFirstLaunch:true
@@ -75,31 +79,53 @@ class App extends React.Component{
 			this.state.quests === null ?
                 <Spinner size="large" />
                 :
-                <Swipe onSwipeMove={this.onSwipeMove}>
-                    <Root activeView={this.state.activeView}>
-                        <View activePanel={QUEST_LIST_PANEL} id={QUEST_LIST_VIEW}>
-                            <Panel id={QUEST_LIST_PANEL}>
-                                <PanelHeader>Quests</PanelHeader>
-                                <QuestList quests ={this.state.quests} onQuestButtonClick={this.onQuestButtonClick} />
-                            </Panel>
-                        </View>
-                        <View activePanel={QUEST_PANEL} id={QUEST_VIEW}>
-                            <Panel id={QUEST_PANEL}>
-                                <PanelHeader
-                                    left={
-                                        <HeaderButton onClick={this.onRequestBackToQuestList}>
-                                            {this.osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>}
-                                        </HeaderButton>
-                                    }
-                                >
-                                    {this.state.activeQuest !== null ? this.state.activeQuest.name : null}
-                                </PanelHeader>
-                                {this.state.activeQuest !== null ? <Quest onRef={ref => (this.quest = ref) } quest={this.state.activeQuest} isFirstLaunch={this.state.isFirstLaunch}/> : <Spinner size="large" />}
-                            </Panel>
-                        </View>
-
-                    </Root>
-                </Swipe>
+				<Epic activeStory={this.state.activeStory} tabbar={
+					<Tabbar>
+						<TabbarItem
+							onClick={this.onStoryChange}
+							selected={this.state.activeStory === this.state.activeQuestStory}
+							data-story={this.state.activeQuestStory}
+							text="Quests"
+						>
+							<Icon28Newsfeed />
+						</TabbarItem>
+						<TabbarItem
+							onClick={this.onStoryChange}
+							selected={this.state.activeStory === App.PROFILE_VIEW}
+							data-story={App.PROFILE_VIEW}
+							text="Profile"
+						>
+							<Icon28Newsfeed />
+						</TabbarItem>
+					</Tabbar>
+				}>
+					<View activePanel={App.QUEST_LIST_PANEL} id={App.QUEST_LIST_VIEW}>
+						<Panel id={App.QUEST_LIST_PANEL}>
+							<PanelHeader>Quests</PanelHeader>
+							<QuestList quests ={this.state.quests} onQuestButtonClick={this.onQuestButtonClick} />
+						</Panel>
+					</View>
+					<View activePanel={App.QUEST_PANEL} id={App.QUEST_VIEW}>
+						<Panel id={App.QUEST_PANEL}>
+							<PanelHeader
+								left={
+									<HeaderButton onClick={this.onRequestBackToQuestList}>
+										{this.osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>}
+									</HeaderButton>
+								}
+							>
+								{this.state.activeQuest !== null ? this.state.activeQuest.name : null}
+							</PanelHeader>
+							{this.state.activeQuest !== null ? <Quest quest={this.state.activeQuest} isFirstLaunch={this.state.isFirstLaunch}/> : <Spinner size="large" />}
+						</Panel>
+					</View>
+					<View id={App.PROFILE_VIEW} activePanel={App.PROFILE_PANEL}>
+						<Panel id={App.PROFILE_PANEL}>
+							<PanelHeader>Profile</PanelHeader>
+							<Profile/>
+						</Panel>
+					</View>
+				</Epic>
 		)
 	}
 
@@ -116,27 +142,25 @@ class App extends React.Component{
 		}
 	}
 
+	onStoryChange (e) {
+		this.setState({ activeStory: e.currentTarget.dataset.story })
+	}
+
 	onRequestBackToQuestList(){
 		this.setState({
-			activeView:QUEST_LIST_VIEW,
+			activeStory:App.QUEST_LIST_VIEW,
+			activeQuestStory:App.QUEST_LIST_VIEW,
 			activeQuest:null
 		})
 	}
 
 	onQuestButtonClick(id){
 		this.setState({
-			activeView:QUEST_VIEW,
+			activeStory:App.QUEST_VIEW,
+			activeQuestStory:App.QUEST_VIEW,
 			activeQuest:this.getQuest(id)
 		})
 	}
-
-    onSwipeMove(position, event){
-	    if (event.touches.length === 0){
-	        return;
-        }
-
-        this.quest.onSwipeMove(position, event)
-    }
 
 }
 
